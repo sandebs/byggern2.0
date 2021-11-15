@@ -52,11 +52,12 @@ void menu_init(){
 	Menu_new_submenu(controller_menu, "JOYSTICK", &f_joystick,s_joystick);
 	Menu_new_submenu(controller_menu, "SLIDER", &f_slider,s_slider);
 	Menu_new_submenu(main_menu, "CALIBRATE", &f_calibrate,s_calibrate);
+	//Menu_new_submenu(main_menu, "ANIMATION", &f_animation,s_animation);
 	
 
 	oled_reset();
 	char buffer[16];
-	for(unsigned char i=0; i<6; i++){
+	for(unsigned char i=0; i<7; i++){
 		oled_goto_page(i);
 		strcpy_P(buffer,(PGM_P)pgm_read_word(&table[i]));
 		oled_center_print(buffer,8);
@@ -113,7 +114,7 @@ void f_1player(){
 		case JOYSTICK:
 
 		//starter counter
-			while (1){ //stopper n?r snor treffes			
+			while (1){ //stopper n?r snor treffes		  /*!CAN_flag*/	
 				joystick_sendPositionButtonCan(joystick_getPosition());
 				//tiden kan telle p? skjermen
 				
@@ -125,7 +126,8 @@ void f_1player(){
 				slider_sendPositionButtonCan(slider_getPosition());
 			}
 		break;
-	}	
+	}
+	//CAN_flag = 0;	
 }
 
 void f_2player(){
@@ -194,10 +196,12 @@ void f_calibrate(){
 		strcpy_P(buffer,(PGM_P)pgm_read_word(&table[i+s_calibrate]));
 		oled_center_print(buffer,8);
 	}
+	_delay_ms(1000);
+	//joystick_calibrate();
 	
-	//funskjon her ||||||||||||||||||||||||||||
+	//dette kan bare være en joystick calibrate, for å gjøre det simplere, eventuell mer avansert se t
+	
 	//send over canbuss til node 2 at det skal bli kalibrert nå
-	_delay_ms(1000); //juster denne opp til ås lang tid calibreringa tar
 		
 	curr_menu=main_menu;
 	pos_child=0;
@@ -205,6 +209,26 @@ void f_calibrate(){
 	
 	
 }
+/*
+void f_animation(){
+	oled_reset();
+	char buffer[16];
+	for(unsigned char i=0; i<8; i++){
+		oled_goto_page(i);
+		strcpy_P(buffer,(PGM_P)pgm_read_word(&table[i+s_animation]));
+		oled_center_print(buffer,8);
+	}
+	
+	//funksjon her fjern delay 
+	oled_animation(4);
+	
+	curr_menu=main_menu;
+	pos_child=0;
+	(*curr_menu->function)(main_menu->name);
+	
+	
+}
+*/
 
 
 

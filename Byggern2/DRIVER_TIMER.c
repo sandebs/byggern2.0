@@ -32,7 +32,7 @@ ISR(TIMER0_COMP_vect){
 			seconds++;
 			mseconds = 0;
 		}
-		printf("Time: %d,%d \n\r", seconds, mseconds);
+		//printf("Time: %d,%d \n\r", seconds, mseconds);
 	}
 	
 	//LEgg til start og stopp "Knapp"

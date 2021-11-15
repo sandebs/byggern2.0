@@ -47,6 +47,11 @@ void adc_ballpoint(int *goal){
 		goalCount++;
 		activateGoal=0;
 		printf("Goal Count: %d \n\r", goalCount);
+		CAN_MESSAGE msg;
+		msg.id = 0;
+		msg.data_length = 1;
+		msg.data[0] = 1;
+		can_send(&msg, 0);
 		
 	}
 	if (adcval> 4000 && activateGoal==0){

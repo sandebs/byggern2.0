@@ -149,6 +149,13 @@ void motor_run(int dirLeft, int speed){
 	else{
 		PIOD->PIO_CODR |= PIO_CODR_P10; //DIR right
 	}
+	int threshold = 2000;
+	if(speed > threshold){
+		speed = threshold;
+	}
+	else if( speed < 0){
+		speed = 0;
+	}
 	REG_DACC_CDR=speed;
 }
 

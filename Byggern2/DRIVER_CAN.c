@@ -10,7 +10,10 @@
 
 
 
+volatile uint8_t CAN_flag = 0;
+
 static uint8_t buffer_number=0;
+
 
 
 void can_init(){
@@ -120,7 +123,7 @@ void can_interrupt_handler(void){
 		can_message *p=can_recive_msg(0);
 		printf("Message id %x \r\n", p->id);
 		printf("Message length: %x \r\n", p->length);
-		//printf("Message length: %x", p->length);
+		printf("Message length: %x", p->length);
 		
 		mcp_bit_modify(MCP_CANINTF, 0x01, 0);
 	}
@@ -131,6 +134,14 @@ void can_interrupt_handler(void){
 		mcp_bit_modify(MCP_CANINTF, 0x02, 0);
 	}
 	
+}
+
+
+
+
+ISR(INT0_vect){
+	CAN_flag = 1;
+	printf("CAN INTERRUPT");
 }
 
 
